@@ -14,6 +14,12 @@ app.use((req, res, next) => {
 // body parser
 app.use(express.json());
 
+// log requests
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+
 // serve static files, map /videos to videosPath
 app.use(`${videosRoute}`, express.static(videosPath));
 
