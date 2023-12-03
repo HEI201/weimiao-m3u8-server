@@ -1,8 +1,15 @@
 import M3u8Downloader from '@lhw/m3u8-downloader';
 import axios from 'axios';
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { videosPath, videosRoute } from './config.js';
+
+// get the path of the script
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+console.log("🚀 ~ file: services.js:9 ~ __dirname:", __dirname);
 // read cookie from file
-const cookie = fs.readFileSync('./cookie', 'utf-8');
+const cookie = fs.readFileSync(path.join(__dirname, 'cookie.txt'), 'utf-8');
 // create an instance
 const instance = axios.create({
     baseURL: 'https://course.weimiaotj.cn/api',
@@ -83,15 +90,15 @@ export const getVideoInfo = async ({
         m3u8_url: url,
         merge: false,
         taskName: data.name,
-        savedPath: '/var/www/html/videos',
-        m3u8TsPath: 'videos'
+        savedPath: videosPath,
+        m3u8TsPath: videosRoute
     });
 
     await d.parseM3u8();
     await d.download();
-    const mpath = ['videos', d.videoFolder, 'index.m3u8'].join('/');
-    console.log(mpath);
-    return mpath;
+    const m3u8Filepath = [videosRoute, d.videoFolder, 'index.m3u8'].join('/');
+    console.log(m3u8Filepath);
+    return m3u8Filepath;
 
 };
 
