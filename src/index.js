@@ -1,7 +1,7 @@
 import express from 'express';
 import { videosPath, videosRoute } from './config.js';
 import router from './router.js';
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const app = express();
 
 // allow cors
