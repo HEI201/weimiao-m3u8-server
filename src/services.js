@@ -7,21 +7,23 @@ import { videosPath, videosRoute } from './config.js';
 
 // get the path of the script
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-console.log("🚀 ~ file: services.js:9 ~ __dirname:", __dirname);
+
 // read cookie from file
-const cookie = fs.readFileSync(path.join(__dirname, 'cookie.txt'), 'utf-8');
+let cookie = fs.readFileSync(path.join(__dirname, 'cookie.txt'), 'utf-8');
+console.log(cookie);
+// remove \r\n from cookie
+cookie = cookie.replace(/(\\r\\n)$/g, '');
+console.log(cookie);
+
 // create an instance
 const instance = axios.create({
     baseURL: 'https://course.weimiaotj.cn/api',
-    timeout: 1000,
+    timeout: 60 * 1000,
     headers: {
-        // referer
         'referer': 'https://course.weimiaotj.cn/course',
 
-        // user-agent 
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0',
 
-        // cookie
         cookie
     }
 });
